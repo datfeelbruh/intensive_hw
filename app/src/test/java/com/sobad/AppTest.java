@@ -3,12 +3,113 @@
  */
 package com.sobad;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    public List<String> stringList = new CustomArrayListImpl<>();
+
+    @BeforeEach
+    void beforeEach() {
+        stringList = new CustomArrayListImpl<>();
+
+        stringList.add("some");
+        stringList.add("some");
+
     }
+
+    @Test
+    void addElement() {
+        String s = "some";
+        int x = 12;
+
+        stringList.add(s);
+
+        int expected = 3;
+
+        assertEquals(stringList.size(), expected);
+    }
+
+    @Test
+    void addElementOnIndex() {
+        int expected = 3;
+
+        stringList.add(1, "abc");
+
+        assertEquals(stringList.size(), expected);
+    }
+
+    @Test
+    void addAll() {
+        List<String> testStringList = new ArrayList<>();
+        testStringList.add("some");
+        testStringList.add("some");
+        testStringList.add("some");
+
+        stringList.addAll(testStringList);
+        assertEquals(stringList.size(), 5);
+    }
+
+    @Test
+    void clear() {
+        stringList.clear();
+
+        assertEquals(stringList.size(), 0);
+    }
+
+    @Test
+    void get() {
+        String expected = "abc";
+        stringList.add(expected);
+        String actual = stringList.get(stringList.size() - 1);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void isEmpty() {
+        assertFalse(stringList.isEmpty());
+        stringList.clear();
+        assertTrue(stringList.isEmpty());
+    }
+
+    @Test
+    void removeOnIndex() {
+        int expectedSize = 1;
+        stringList.remove(1);
+
+        assertEquals(stringList.size(), expectedSize);
+    }
+
+    @Test
+    void removeObject() {
+        String testObject = "new";
+        stringList.add(testObject);
+
+        stringList.remove(testObject);
+
+        assertNotEquals(stringList.get(0), testObject);
+        assertNotEquals(stringList.get(1), testObject);
+    }
+
+    @Test
+    void sort() {
+        stringList.clear();
+        stringList.add("c");
+        stringList.add("b");
+        stringList.add("a");
+
+        stringList.sort(Comparator.comparing(String::toString));
+
+        assertNotEquals(stringList.get(0), "c");
+        assertEquals(stringList.get(1), "b");
+        assertNotEquals(stringList.get(2), "a");
+    }
+
 }
