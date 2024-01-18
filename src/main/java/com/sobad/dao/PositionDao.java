@@ -4,15 +4,15 @@ import com.sobad.dto.PositionDto;
 import com.sobad.entity.Position;
 import com.sobad.exception.DaoException;
 import com.sobad.util.ConnectionManager;
-import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class PositionDao {
+
+    private final static PositionDao INSTANCE = new PositionDao();
     private static final String INIT_SQL = """
             INSERT INTO position (position_name) VALUES
             ('PM'), ('Programmer'), ('Analytic');
@@ -45,6 +45,12 @@ public class PositionDao {
             DELETE FROM position
             WHERE position_id = ?
             """;
+
+    private PositionDao() {}
+
+    public static PositionDao getInstance() {
+        return INSTANCE;
+    }
 
     public void init() {
         try (var connection = ConnectionManager.get()) {

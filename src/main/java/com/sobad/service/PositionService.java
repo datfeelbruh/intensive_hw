@@ -4,14 +4,21 @@ import com.sobad.dao.PositionDao;
 import com.sobad.dto.PositionDto;
 import com.sobad.entity.Position;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 public class PositionService {
-    private final PositionDao positionDao;
+    private final PositionDao positionDao = PositionDao.getInstance();
+
+    private static final PositionService INSTANCE = new PositionService();
+
+    private PositionService() {
+
+    }
+
+    public static PositionService getInstance() {
+        return INSTANCE;
+    }
 
     public Position create(PositionDto positionDto) {
         return positionDao.save(positionDto);

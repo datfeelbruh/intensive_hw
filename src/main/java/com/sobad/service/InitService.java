@@ -1,17 +1,23 @@
 package com.sobad.service;
 
 import com.sobad.dao.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
 public class InitService {
-    private final CustomerDao customerDao;
-    private final EmployeeDao employeeDao;
-    private final ProjectDao projectDao;
-    private final PositionDao positionDao;
-    private final EmployeePositionDao employeePositionDao;
+    private final CustomerDao customerDao = CustomerDao.getInstance();
+    private final EmployeeDao employeeDao = EmployeeDao.getInstance();
+    private final ProjectDao projectDao = ProjectDao.getInstance();
+    private final PositionDao positionDao = PositionDao.getInstance();
+    private final EmployeePositionDao employeePositionDao = EmployeePositionDao.getInstance();
+
+    private static final InitService INSTANCE = new InitService();
+
+    private InitService() {
+
+    }
+
+    public static InitService getInstance() {
+        return INSTANCE;
+    }
 
     public void init() {
         customerDao.init();

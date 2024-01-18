@@ -7,7 +7,6 @@ import com.sobad.entity.Project;
 import com.sobad.exception.DaoException;
 import com.sobad.util.ConnectionManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +15,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
 public class EmployeeDao {
-    private final EmployeePositionDao employeePositionDao;
+    private final static EmployeeDao INSTANCE = new EmployeeDao();
     private static final String DELETE_SQL = """
             DELETE FROM employee USING employee_position
             WHERE employee.employee_id = employee_position.employee_id
@@ -66,6 +63,12 @@ public class EmployeeDao {
     private static final String DELETE_ALL_SQL = """
             TRUNCATE employee RESTART IDENTITY CASCADE;
             """;
+
+    private EmployeeDao() {}
+
+    public static EmployeeDao getInstance() {
+        return INSTANCE;
+    }
 
     public void init() {
         try (var connection = ConnectionManager.get()) {

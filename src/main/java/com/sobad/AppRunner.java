@@ -1,14 +1,9 @@
 package com.sobad;
 
 import com.sobad.util.DatabaseUtil;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
-@Component
 public class AppRunner {
-    @EventListener(ContextRefreshedEvent.class)
-    public void onStartup() {
+    public static void main(String[] args) {
         DatabaseUtil.initTables();
     }
 }

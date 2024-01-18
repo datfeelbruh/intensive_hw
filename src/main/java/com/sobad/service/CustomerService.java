@@ -5,15 +5,21 @@ import com.sobad.dto.CustomerDto;
 import com.sobad.dto.CustomerReadDto;
 import com.sobad.entity.Customer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
 public class CustomerService {
-    private final CustomerDao customerDao;
+    private final CustomerDao customerDao = CustomerDao.getInstance();
+    private static final CustomerService INSTANCE = new CustomerService();
+
+    private CustomerService() {
+
+    }
+
+    public static CustomerService getInstance() {
+        return INSTANCE;
+    }
 
     public CustomerReadDto create(CustomerDto customerDto) {
         Customer save = customerDao.save(customerDto);

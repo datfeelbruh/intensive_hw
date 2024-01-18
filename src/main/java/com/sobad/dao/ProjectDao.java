@@ -6,7 +6,6 @@ import com.sobad.entity.Project;
 import com.sobad.exception.DaoException;
 import com.sobad.util.ConnectionManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +13,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
 public class ProjectDao {
+
+    private static final ProjectDao INSTANCE = new ProjectDao();
 
     private static final String INIT_SQL = """
             INSERT INTO project (project_name, customer_id) VALUES
@@ -50,6 +49,12 @@ public class ProjectDao {
             DELETE FROM project
             WHERE project.project_id = ?
             """;
+
+    private ProjectDao() {}
+
+    public static ProjectDao getInstance() {
+        return INSTANCE;
+    }
 
     public void init() {
         try (var connection = ConnectionManager.get()) {

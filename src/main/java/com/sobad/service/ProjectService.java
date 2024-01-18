@@ -5,14 +5,22 @@ import com.sobad.dto.ProjectDto;
 import com.sobad.dto.ProjectReadDto;
 import com.sobad.entity.Project;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 public class ProjectService {
-    private final ProjectDao projectDao;
+    private final ProjectDao projectDao = ProjectDao.getInstance();
+
+    private static final ProjectService INSTANCE = new ProjectService();
+
+    private ProjectService() {
+
+    }
+
+    public static ProjectService getInstance() {
+        return INSTANCE;
+    }
+
 
     public ProjectReadDto create(ProjectDto projectDto) {
         Project save = projectDao.save(projectDto);

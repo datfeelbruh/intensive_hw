@@ -5,16 +5,16 @@ import com.sobad.entity.Customer;
 import com.sobad.exception.DaoException;
 import com.sobad.util.ConnectionManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
 public class CustomerDao {
+
+    private static final CustomerDao INSTANCE = new CustomerDao();
+
     private static final String INIT_SQL = """
             INSERT INTO customer (customer_name) VALUES 
             ('VTB'), ('Arasaka'), ('Starbucks');
@@ -53,6 +53,13 @@ public class CustomerDao {
             DELETE FROM customer
             WHERE customer_id = ?
             """;
+
+    private CustomerDao() {
+    }
+
+    public static CustomerDao getInstance() {
+        return INSTANCE;
+    }
 
     public void init() {
         try (var connection = ConnectionManager.get()) {

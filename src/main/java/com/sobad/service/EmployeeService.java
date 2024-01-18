@@ -4,14 +4,21 @@ import com.sobad.dao.EmployeeDao;
 import com.sobad.dto.EmployeeDto;
 import com.sobad.entity.Employee;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 public class EmployeeService {
-    private final EmployeeDao employeeDao;
+    private final EmployeeDao employeeDao = EmployeeDao.getInstance();
+
+    private static final EmployeeService INSTANCE = new EmployeeService();
+
+    private EmployeeService() {
+
+    }
+
+    public static EmployeeService getInstance() {
+        return INSTANCE;
+    }
 
     public Employee create(EmployeeDto employeeDto) {
         return employeeDao.save(employeeDto);
